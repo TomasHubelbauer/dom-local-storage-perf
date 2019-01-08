@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DOM localStorage performance</title>
+    <script>
+      const rounds = 1000;
+
+      localStorage.clear();
+      const benchmark1 = performance.now();
+      for (let index = 0; index < rounds; index++) {
+        if (index === 0) {
+          localStorage.setItem(index.toString(), JSON.stringify({ title: 'Benchmark 1 - initial' }));
+        } else {
+          const item = JSON.parse(localStorage.getItem((index - 1).toString()));
+          localStorage.setItem(index.toString(), JSON.stringify({ title: 'Benchmark 1 - ' + index }));
+        }
+      }
+      
+      const result1 = performance.now() - benchmark1;
+      
+      localStorage.clear();
+      const benchmark2 = performance.now();
+      for (let index = 0; index < rounds; index++) {
+        if (index === 0) {
+          localStorage.setItem('items', JSON.stringify([{ title: 'Benchmark 2 - initial' }]));
+        } else {
+          const items = JSON.parse(localStorage.getItem('items'));
+          const item = items[index - 1];
+          localStorage.setItem(index.toString(), JSON.stringify({ 'Benchmark 2 - ' + index }));
+        }
+      }
+      
+      const result2 = performance.now() - benchmark2;
+      
+      window.addEventListener('load', _ => {
+        document.body.innerHTML = `Benchmark 1: ${result1}<br />Benchmark 2: ${result2}`;
+      });
+    </script>
+  </head>
+  <body>
+  
+  </body>
+</html>
