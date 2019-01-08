@@ -3,11 +3,11 @@
   <head>
     <title>DOM localStorage performance</title>
     <script>
-      const rounds = 10000;
+      const rounds = 1000;
       let result1;
       let result2;
 
-      for (let run = 0; run < 100; run++) {
+      for (let run = 0; run < 10; run++) {
         localStorage.clear();
         const benchmark1 = performance.now();
         for (let index = 0; index < rounds; index++) {
