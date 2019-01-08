@@ -3,34 +3,38 @@
   <head>
     <title>DOM localStorage performance</title>
     <script>
-      const rounds = 1000;
+      const rounds = 10000;
+      let result1;
+      let result2;
 
-      localStorage.clear();
-      const benchmark1 = performance.now();
-      for (let index = 0; index < rounds; index++) {
-        if (index === 0) {
-          localStorage.setItem(index.toString(), JSON.stringify({ title: 'Benchmark 1 - initial' }));
-        } else {
-          const item = JSON.parse(localStorage.getItem((index - 1).toString()));
-          localStorage.setItem(index.toString(), JSON.stringify({ title: 'Benchmark 1 - ' + index, ref: item.title }));
+      for (let run = 0; run < 100; run++) {
+        localStorage.clear();
+        const benchmark1 = performance.now();
+        for (let index = 0; index < rounds; index++) {
+          if (index === 0) {
+            localStorage.setItem(index.toString(), JSON.stringify({ title: 'Benchmark 1 - initial' }));
+          } else {
+            const item = JSON.parse(localStorage.getItem((index - 1).toString()));
+            localStorage.setItem(index.toString(), JSON.stringify({ title: 'Benchmark 1 - ' + index, ref: item.title }));
+          }
         }
-      }
-      
-      const result1 = performance.now() - benchmark1;
-      
-      localStorage.clear();
-      const benchmark2 = performance.now();
-      for (let index = 0; index < rounds; index++) {
-        if (index === 0) {
-          localStorage.setItem('items', JSON.stringify([{ title: 'Benchmark 2 - initial' }]));
-        } else {
-          const items = JSON.parse(localStorage.getItem('items'));
-          const item = items[index - 1];
-          localStorage.setItem(index.toString(), JSON.stringify({ title: 'Benchmark 2 - ' + index, ref: item.title }));
+
+        result1 = performance.now() - benchmark1;
+
+        localStorage.clear();
+        const benchmark2 = performance.now();
+        for (let index = 0; index < rounds; index++) {
+          if (index === 0) {
+            localStorage.setItem('items', JSON.stringify([{ title: 'Benchmark 2 - initial' }]));
+          } else {
+            const items = JSON.parse(localStorage.getItem('items'));
+            const item = items[index - 1];
+            localStorage.setItem(index.toString(), JSON.stringify({ title: 'Benchmark 2 - ' + index, ref: item.title }));
+          }
         }
+
+        result2 = performance.now() - benchmark2;
       }
-      
-      const result2 = performance.now() - benchmark2;
       
       window.addEventListener('load', _ => {
         document.body.innerHTML = `Benchmark 1: ${result1}<br />Benchmark 2: ${result2}`;
