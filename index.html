@@ -29,7 +29,8 @@
           } else {
             const items = JSON.parse(localStorage.getItem('items'));
             const item = items[index - 1];
-            localStorage.setItem(index.toString(), JSON.stringify({ title: 'Benchmark 2 - ' + index, ref: item.title }));
+            items.push({ title: 'Benchmark 2 - ' + index, ref: item.title });
+            localStorage.setItem(index.toString(), JSON.stringify(items));
           }
         }
 
