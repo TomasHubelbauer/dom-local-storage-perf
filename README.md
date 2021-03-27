@@ -5,3 +5,5 @@ An experiment in seeing what is faster - multiple items with JSON contents or a 
 See the [**online demo**](https://tomashubelbauer.github.io/dom-local-storage-perf/).
 
 ## To-Do
+
+### Describe what the two tests do and present the results in the readme
